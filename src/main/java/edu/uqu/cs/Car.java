@@ -9,61 +9,149 @@ package edu.uqu.cs;
 */
 import java.util.Scanner;
 
-public class Car{
+public class Garage{
 
-    /************ Part 1 **************/
+    /** Part 1 **/
     /**
-     * Decalre all instance variables 
-     * model of type String
-     * inOutGarage of type boolean
-     * Make sure they are all private
+     * Decalre an instance variable named cars
+     * as an array of Car type
+     * it should be of size 3
+     * Make sure its private
      * Syntax:
-     * private dataType name;
+     * private classType [] varName = new classType[size];
      *
      */
-
-    /************ Part 2 **************/
+private Car[] cars = new Car[3];
+    /** Part 2 **/
     /**
-     * Define a default constructor and set 
-     * all instance variables to their default values
-     * model ="";
-     * inOutGarage =false;
+     * Decalre a static/class variable named countCars
+     * Make sure its public
+     * you could initialize it to 0
+     * Syntax:
+     * public dataType varName= value;
+     *
+     */
+public static int countCars = 0;
+    /** Part 3 **/
+    /**
+     * Define a default constructor to create
+     * all the elements of cars
+     * 
+     * Use loop to create them as follows:
      * Syntax:
      * public className (){
-     *      //body
-     * }
+     * 	   for(int i=0; i<arrayName.length; i++){
+     *         arrayName[i]= new arrayClassName();
+     *     }
+     *}
      */
-
-    /************ Part 3 **************/
+ public Garage() {
+        for (int i = 0; i < cars.length; i++) {
+            cars[i] = new Car();
+        }
+    }
+    /** Part 4 **/
     /**
-     * Define all getter methods below
-     * for each instance variable
+     * Define addCar(String parameter) that adds a new car (by model) to the garage 
+     * and set its flag to true; 
+     * hint: you must check if the car has not been added before to the list of cars 
+     * and it should be added to the car list by using the static variable countCars! 
+     * also, change the status of the instance variable inOutGarage to true 
+     * by calling method moveCarIn() of class Car
+     * Don’t forget to increase countCars’s value by one
+     * Note: method returns NO data
      * Syntax:
-     * public dataType getInstanceVariableName (){
-     *      return this.InstanceVariableName;
-     * }
+     * public void methodName(String m)
      */
 
-
-    /************ Part 4 **************/
+public void addCar(String model) {
+        if (countCars == cars.length) {
+            System.out.println("Garage is full. Cannot add any more cars.");
+        } else {
+            boolean carExists = false;
+            for (int i = 0; i < countCars; i++) {
+                if (cars[i].getModel().equals(model)) {
+                    System.out.println("Car " + model + " already exists in the garage.");
+                    carExists = true;
+                    break;
+                }
+            }
+            if (!carExists) {
+                cars[countCars].setModel(model);
+                cars[countCars].moveCarIn();
+                countCars++;
+                //System.out.println("Car " + model + " added to the garage.");
+            }
+        }
+    }
+    /** Part 5 **/
     /**
-     * Define all setter methods below
-     * for each instance variable
-     * public void setInstanceVariableName (parameter){
-     *      this.InstanceVariableName= parameter;
-     * }
+     * Define moveOut(String) that moves the car (by model) out of the garage; 
+     * hint you must first search if the car is in the list of cars, 
+     * then use moveCarOut () method of class Car
+     * Note: method returns NO data
+     * Syntax:
+     * public void methodName(String m)
      *
      */
+   public void moveOut(String model) {
+        boolean carExists = false;
+        for (int i = 0; i < countCars; i++) {
+            if (cars[i].getModel().equals(model)) {
+                cars[i].moveCarOut();
+                //System.out.println("Car " + model + " moved out of the garage.");
+                carExists = true;
+                for (int j = i; j < countCars - 1; j++) {
+                    cars[j] = cars[j+1];
+                }
+                countCars--;
+                break;
+            }
+        }
+        if (!carExists) {
+            System.out.println("Car " + model + " does not exist in the garage.");
+        }
+    }  
 
 
-    /************ Part 5 **************/
+    /** Part 6 **/
     /**
-     * Implement the following two methods
-     * moveCarOut() to set the inOutGarage flag to false;
-     * moveCarIn() to set the inOutGarage flag to true;
+     * Define moveOut(String) that moves the car (by model) into the garage; 
+     * hint you must first search if the car is in the list of cars, 
+     * then use moveCarIn () method of class Car;
+     * Note: method returns NO data
+     * Syntax:
+     * public void methodName(String m)
      *
      */
+   public void moveIn(String model) {
+        boolean carExists = false;
+        for (int i = 0; i < countCars; i++) {
+            if (cars[i].getModel().equals(model)) {
+                System.out.println("Car " + model + " is already in the garage.");
+                carExists = true;
+                break;
+            }
+        }
+        if (!carExists) {
+            addCar(model);
+        }
+    } 
 
+    /** Part 7 **/
+    /**
+     * Define listCars() to display/list all the cars in the garage;
+     * Note: method returns NO data
+     * Hint: use loop and methods of class Car to access private data members
+     * Syntax:
+     * public void methodName(String m)
+     *
+     */
+ public void listCars() {
+        for (int i = 0; i < countCars; i++) {
+            System.out.println("Car " + (i+1) + ": " + cars[i].getModel());
+        }
+    } 
 
 
 }
